@@ -16,3 +16,13 @@ localStorage.setItem
 localStorage.getItem 
 
 npm install --save-exact react-image-lightbox@5.1.4 --force
+
+npm install --save-exact react-router-dom@5.3.0 --force
+
+<!-- APIs LÀ GÌ?  -->
+- CÔNG CỤ GIAO TIẾP GIỮA FRONTEND VỚI BACKEND
+
+
+<!-- sử dụng react-otp-input để làm OTP -->
+
+npm install --save-exact react-otp-input@2.4.0
