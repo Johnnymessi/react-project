@@ -1,69 +1,32 @@
 import React, { useEffect, useState } from "react";
 
 const CountDown = (props) => {
-    const [count, setCount] = useState(20);
+    const [count, setCount] = useState(20); // Sử dụng useState để quản lý biến đếm
 
     useEffect(() => {
 
         if (count === 0) {
-            props.setIsDisableBtn(true);
+            props.setIsDisableBtn(true); // Khi đếm về 0, gọi hàm setIsDisableBtn từ props để vô hiệu hóa nút
             return;
         }
 
+        // Tạo một hẹn giờ để giảm giá trị của biến đếm mỗi 1000ms (1 giây)
         const timer = setInterval(() => {
-
-            setCount(count - 1)
-
+            setCount(count - 1); // Giảm giá trị của biến đếm đi 1
         }, 1000);
 
+        // Thực hiện việc dọn dẹp hẹn giờ khi thành phần bị hủy bỏ hoặc biến đếm thay đổi
         return () => {
-            clearInterval(timer);
+            clearInterval(timer); // Hủy hẹn giờ để tránh rò rỉ bộ nhớ
         }
 
-    }, [count]);
+    }, [count]); // Chạy useEffect khi biến đếm thay đổi
 
     return (
         <div>
-            {count}
+            {count} {/* Hiển thị giá trị của biến đếm */}
         </div>
     )
 }
 
-// class CountDown extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             count: 10
-//         }
-//     }
-
-//     componentDidMount() {
-//         //vòng lặp vô hạn
-//         this.timer = setInterval(() => {
-//             let currenCount = this.state.count;
-//             this.setState({
-//                 count: currenCount - 1
-//             })
-//         }, 1000);
-//     }
-
-//     componentDidUpdate(prevProps, prevState) {
-
-//         if (this.state.count !== prevState.count && this.state.count === 0) {
-//             if (this.timer) {
-//                 clearInterval(this.timer);
-//             }
-//         }
-//     }
-
-//     render() {
-//         return (
-//             <div>
-//                 {this.state.count}
-//             </div>
-//         )
-//     }
-// }
-
-export default CountDown;
+export default CountDown; // Xuất thành phần CountDown để sử dụng ở các thành phần khác

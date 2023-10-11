@@ -1,22 +1,32 @@
-import { useState } from "react";
-import OtpInput from "react-otp-input";
-// import CountDown from "./CountDown";
-import CountDownAnimation from "./CountDownAnimation";
+import { useState, useRef } from "react"; // Nhúng useState và useRef từ thư viện React
+import OtpInput from "react-otp-input"; // Nhúng thành phần OtpInput từ thư viện "react-otp-input"
+import CountDown from "./CountDown"; // Nhúng thành phần CountDown từ tệp "CountDown.js"
+import CountDownAnimation from "./CountDownAnimation"; // Nhúng thành phần CountDownAnimation từ tệp "CountDownAnimation.js"
 
 const InputOTP = (props) => {
+    const childRef = useRef(); // Tạo một ref để sử dụng sau này
 
-    const [otp, setOtp] = useState("");
+    const [otp, setOtp] = useState(""); // Sử dụng useState để quản lý mã OTP nhập vào
 
-    // biến otp không phải từ trog state - là sự trùng hợp với thư viện
+    // Xử lý sự kiện khi người dùng thay đổi mã OTP
     const handleChange = (otp) => {
         setOtp(otp);
 
-        //gọi props ở trên để truyền dữ liệu từ cha xuống con
-        props.setUserOTPParent(otp)
+        // Gọi hàm setUserOTPParent từ props để truyền mã OTP từ thành phần con lên thành phần cha
+        props.setUserOTPParent(otp);
     }
 
+    // Xử lý sự kiện khi người dùng xác nhận mã OTP
     const handleConfirmOTP = () => {
+        // Gọi hàm handleSubmitOTP từ props để xử lý việc xác nhận mã OTP
         props.handleSubmitOTP();
+    }
+
+    // Xử lý sự kiện khi người dùng bấm nút "Clear"
+    const handleClearBtn = () => {
+        // Sử dụng ref để gọi hàm resetTimer từ thành phần con CountDownAnimation
+        childRef.current.resetTimer();
+        console.log("check ref:", childRef);
     }
 
     return (
@@ -32,28 +42,25 @@ const InputOTP = (props) => {
             <div className="timer">
                 {/* 
                 <CountDown
-
-                    setIsDisableBtn={
-                        props.setIsDisableBtn
-                    }
-
+                    setIsDisableBtn={props.setIsDisableBtn}
                 /> */}
-
                 <CountDownAnimation
                     setIsDisableBtn={props.setIsDisableBtn}
+                    ref={childRef} // Truyền ref vào thành phần CountDownAnimation
                 />
             </div>
 
             <div className="action">
-
-                <button className="clear">Clear</button>
+                <button className="clear"
+                    onClick={() => handleClearBtn()}
+                    disabled={!props.isDisableBtn}
+                >
+                    Clear
+                </button>
 
                 <button className="confirm"
-
                     disabled={props.isDisableBtn}
-
                     onClick={() => handleConfirmOTP()}
-
                 >
                     Confirm
                 </button>
@@ -62,4 +69,4 @@ const InputOTP = (props) => {
     )
 }
 
-export default InputOTP;
+export default InputOTP; // Xuất thành phần InputOTP để sử dụng ở các thành phần khác
